@@ -35,6 +35,14 @@ public:
 	*/
 	std::string toHexString() const;
 protected:
+	/**
+		This function converts a single hex character into decimal form.
+
+		@param[in] input A single hexadecimal character
+		@return The 0-15 integer the hex input represents
+	*/
+	uint8_t char2int(char input) const;
+
 	vector<uint8_t> *m_key_data;
 };
 
