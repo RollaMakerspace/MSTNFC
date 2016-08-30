@@ -4,6 +4,10 @@
 #include <vector>
 #include <string>
 #include <unistd.h>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <algorithm>
 
 class AES128Key {
 public:
@@ -12,7 +16,7 @@ public:
 
 		@param[key_data] A 32 byte long vector<uint8_t> containing key data.
 	*/
-	AES128Key(vector<uint8_t>* key_data);
+	AES128Key(std::vector<uint8_t>* key_data);
 
 	/**
 		Constructs the object with existing key data in hex string form.
@@ -34,6 +38,13 @@ public:
 		@return A hex string of the key data 32 characters in length.
 	*/
 	std::string toHexString() const;
+
+	/**
+		Gives a pointer to the underlying array of AES128Key
+
+		@return A pointer array to key data, length 16.
+	*/
+	uint8_t* toArray() const;
 protected:
 	/**
 		This function converts a single hex character into decimal form.
@@ -43,7 +54,7 @@ protected:
 	*/
 	uint8_t char2int(char input) const;
 
-	vector<uint8_t> *m_key_data;
+	std::vector<uint8_t> *m_key_data;
 };
 
 #endif

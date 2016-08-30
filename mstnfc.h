@@ -1,12 +1,20 @@
 #ifndef MSTNFC_H
 #define MSTNFC_H
 
+extern "C" {
+	#include "libnfc.h"
+	#include "libfreefare.h"
+}
+
 #include <unistd.h>
+#include <iostream>
+#include <string>
 #include "aes128key.h"
 
 class MSTNFC {
 public:
 	MSTNFC();
+
 	/**
 		Initializes the NFC reader and prepares it to scan cards.
 		@return Returns true if initialization occurred successfully otherwise false
@@ -29,7 +37,7 @@ public:
 			AID in the last 3 bytes of an integer, 0x00XXXXXX demonstrated using X's. Returns
 			null if failure.
 	*/
-	vector<uint32_t>* listApplications() const;
+	std::vector<uint32_t>* listApplications() const;
 
 	/**
 		Checks if the card contains a specific Application by ID.
@@ -43,9 +51,9 @@ public:
 	/**
 		Attempt to get the UID of the connected card.
 
-		@return A vector<uint8_t> containing the bytes of the UID. Returns null if failure.
+		@return A string of hex chars representing the UID. Returns null if failure.
 	*/
-	vector<uint8_t>* getUID() const;
+	std::string getUID() const;
 
 	/**
 		Function returns status of connected card.
@@ -78,8 +86,10 @@ public:
 			 demonstrated using X's.
 		@return Returns the 3 keys as AES128Key objects stored in a vector<AES128Key>.
 	*/
-	vector<AES128Key>* generateKeys(AES128Key* old_key_data, uint32_t aid);
+	std::vector<AES128Key>* generateKeys(AES128Key* old_key_data, uint32_t aid);
 protected:
+	nfc_device *m_nfc_device;
+	FreefareTag* m_nfc_tag;
 };
 
 #endif
